@@ -5,17 +5,17 @@
 [ext_resource path="res://sprites/environment/lampenkap.png" type="Texture" id=3]
 [ext_resource path="res://Lamp.gd" type="Script" id=4]
 
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 28, 22 )
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 64, 28 )
-
-[sub_resource type="OccluderPolygon2D" id=1]
+[sub_resource type="OccluderPolygon2D" id=2]
 polygon = PoolVector2Array( -27.9453, -9.31381, -16.9515, -21.1061, -9.25975, -24.2303, 0.751556, -25.8989, 15.6401, -23.0273, 21.5865, -19.9142, 28.0218, -9.31381, 33.8353, -18.9733, 36.8116, -28.1009, 15.5802, -52.3087, -15.771, -52.1103, -28.6687, -35.2442, -33.4309, -23.3387, -31.0498, -15.6001 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 64, 28 )
+extents = Vector2( 28, 22 )
 
 [node name="Lamp" type="StaticBody2D"]
+collision_mask = 0
 script = ExtResource( 4 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
@@ -30,14 +30,13 @@ emission_shape = 1
 emission_sphere_radius = 24.0
 direction = Vector2( 20, 20 )
 spread = 2.0
-gravity = Vector2( 0, 98 )
 radial_accel = 40.0
 scale_amount = 4.0
 scale_amount_random = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -21 )
-shape = SubResource( 2 )
+position = Vector2( 0, -27 )
+shape = SubResource( 1 )
 
 [node name="Light2D" type="Light2D" parent="."]
 position = Vector2( 0.84185, -19.1403 )
@@ -59,11 +58,12 @@ texture = ExtResource( 3 )
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 position = Vector2( 0, 4 )
-occluder = SubResource( 1 )
+occluder = SubResource( 2 )
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( -0.0371628, -21 )
+position = Vector2( -0.0371628, -27 )
 shape = SubResource( 3 )
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
