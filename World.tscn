@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Platform.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Bullet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Enemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Lamp.tscn" type="PackedScene" id=5]
+[ext_resource path="res://sprites/environment/background.png" type="Texture" id=7]
+
+[node name="World" type="Node2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 494, -398 )
+texture = ExtResource( 7 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 5000, 5000 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Sprite"]
+position = Vector2( -494, 398 )
+color = Color( 0.27451, 0.27451, 0.27451, 1 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 287.391, -678.79 )
+Bullet = ExtResource( 3 )
+
+[node name="Platform" parent="." instance=ExtResource( 2 )]
+position = Vector2( 555.293, 473.868 )
+
+[node name="Platform2" parent="." instance=ExtResource( 2 )]
+position = Vector2( -193.1, -554.228 )
+
+[node name="Platform3" parent="." instance=ExtResource( 2 )]
+position = Vector2( -193.1, -375.319 )
+
+[node name="Platform4" parent="." instance=ExtResource( 2 )]
+position = Vector2( -193.1, -203.969 )
+
+[node name="Platform5" parent="." instance=ExtResource( 2 )]
+position = Vector2( -193.1, 15.2568 )
+
+[node name="Platform6" parent="." instance=ExtResource( 2 )]
+position = Vector2( -200.659, 226.924 )
+
+[node name="Enemy" parent="." instance=ExtResource( 4 )]
+position = Vector2( -227.594, -654.62 )
+
+[node name="Lamp" parent="." instance=ExtResource( 5 )]
+position = Vector2( -383.606, -842.162 )
