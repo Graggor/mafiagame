@@ -17,11 +17,7 @@ region_rect = Rect2( 0, 0, 5000, 5000 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Sprite"]
 position = Vector2( -494, 398 )
-color = Color( 0.27451, 0.27451, 0.27451, 1 )
-
-[node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 287.391, -678.79 )
-Bullet = ExtResource( 3 )
+color = Color( 0.458824, 0.458824, 0.458824, 1 )
 
 [node name="Platform" parent="." instance=ExtResource( 2 )]
 position = Vector2( 555.293, 473.868 )
@@ -46,3 +42,7 @@ position = Vector2( -227.594, -654.62 )
 
 [node name="Lamp" parent="." instance=ExtResource( 5 )]
 position = Vector2( -383.606, -842.162 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 287.391, -678.79 )
+Bullet = ExtResource( 3 )
