@@ -26,10 +26,12 @@ func interact(body):
 	body.position = get_node(linked).position
 
 func _on_Up_body_entered(body):
+	$Label.visible = true
 	body_present = true
 	current_body = body
 
 
 func _on_Up_body_exited(_body):
+	$Label.visible = false
 	body_present = false
 	current_body = null
