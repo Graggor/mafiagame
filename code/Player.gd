@@ -71,10 +71,14 @@ func _input(event):
 func apply_anim():
 	var anim = "idle"
 	
-	if !(velocity.x < 0.8 && velocity.x > -0.8) && !ducking:
-		anim = "walk"
-	elif ducking:
-		anim = "duck"
+	if !(velocity.x < 0.8 && velocity.x > -0.8):
+		if ducking:
+			anim = "slide"
+		else:
+			anim = "walk"
+	else:
+		if ducking:
+			anim = "duck"
 	
 	$AnimationPlayer.play(anim)
 	
