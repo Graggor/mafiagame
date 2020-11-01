@@ -9,7 +9,7 @@ extents = Vector2( 32, 32 )
 polygon = PoolVector2Array( -31.9884, -30.5096, -31.98, 31.8038, 31.9944, 30.9948, 31.9945, -29.2118 )
 
 [node name="Platform" type="StaticBody2D"]
-scale = Vector2( 20, 1 )
+scale = Vector2( 20, 0.5 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
