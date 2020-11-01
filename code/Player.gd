@@ -7,11 +7,15 @@ const max_speed = 400
 var gravity = 2400
 var health = 100.0
 var ducking = false
+const weapon_count = 2
+var current_weapon = 0
 
 export (PackedScene) var Bullet
+export (PackedScene) var Flashbang
 
 var target = Vector2()
 var fall_damage
+var flash_duration = 0
 
 
 # Called when the node enters the scene tree for the first time.
@@ -21,6 +25,14 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	if flash_duration > 0:
+		flash_duration -= delta
+		$Camera2D/FlashEffect.modulate.a = flash_duration 
+	elif flash_duration < 0:
+		flash_duration = 0
+		$Camera2D/FlashEffect.modulate.a = 0
+		
+	
 	if !ducking:
 		speed = max_speed
 	get_input()
@@ -52,6 +64,9 @@ func _input(event):
 		ducking = true
 	elif event.is_action_released("duck"):
 		ducking = false
+	if event.is_action_pressed("switch_weapon"):
+		current_weapon = (current_weapon + 1) % weapon_count
+		
 
 func apply_anim():
 	var anim = "idle"
@@ -63,12 +78,27 @@ func apply_anim():
 	
 	$AnimationPlayer.play(anim)
 	
+func blind():
+	flash_duration = 1.0
+	$Camera2D/FlashEffect.modulate.a = 255
+	
+		
 func shoot():
-	var b = Bullet.instance()
-	owner.add_child(b)
-	b.transform = $Body/Gun.global_transform
-	b.velocity = $Body/Gun.global_position.direction_to(get_global_mouse_position())
-	b.rotation = b.velocity.angle()
+	match current_weapon:
+		0:
+			var f = Flashbang.instance()
+			owner.add_child(f)
+			f.transform = $Body/Gun.global_transform
+			var throw_velocity = $Body/Gun.global_position.direction_to(get_global_mouse_position())
+			f.rotation = 0
+			f.apply_central_impulse(throw_velocity * 900 + velocity)
+		1:
+			var b = Bullet.instance()
+			owner.add_child(b)
+			b.transform = $Body/Gun.global_transform
+			b.velocity = $Body/Gun.global_position.direction_to(get_global_mouse_position())
+			b.rotation = b.velocity.angle()
+	
 	
 func take_damage(amount):
 	print(amount)
