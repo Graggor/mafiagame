@@ -7,7 +7,6 @@ const max_speed = 400
 var gravity = 2400
 var health = 100.0
 var ducking = false
-const weapon_count = 3
 var current_weapon = 0
 
 export (PackedScene) var Bullet
@@ -17,12 +16,15 @@ export (PackedScene) var Molotov
 var target = Vector2()
 var fall_damage
 var flash_duration = 0
-
+const guns = ["ak", "flashbang", "molotov"]
 onready var gun = $Body/Arm/Gun
+onready var arm = $Body/Arm
+onready var root = get_node('/root')
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	speed = max_speed
+	equip_weapon(current_weapon)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -44,8 +46,8 @@ func _physics_process(delta):
 	velocity = move_and_slide_with_snap(velocity, Vector2(), Vector2.UP)
 	apply_anim()
 	
-	if Input.is_action_just_pressed("shoot"):
-		shoot()
+	if Input.is_action_just_pressed("attack"):
+		attack()
 	
 	if !is_on_floor():
 		fall_damage = velocity.y
@@ -69,7 +71,7 @@ func _input(event):
 	elif event.is_action_released("duck"):
 		ducking = false
 	if event.is_action_pressed("switch_weapon"):
-		current_weapon = (current_weapon + 1) % weapon_count
+		equip_weapon((current_weapon + 1) % guns.size())
 		
 
 func apply_anim():
@@ -90,31 +92,46 @@ func blind():
 	flash_duration = 1.0
 	$Camera2D/FlashEffect.modulate.a = 255
 	
-		
-func shoot():
+func equip_weapon(id):
+	current_weapon = id
+	$Body/Arm/AnimationPlayer.play(guns[id])
+	
+func attack():
 	match current_weapon:
 		0:
-			var b = Bullet.instance()
-			get_node('/root').add_child(b)
-			b.transform = gun.global_transform
-			b.direction = Vector2(1,0).rotated(gun.global_rotation)
-			#b.direction = gun.global_position.direction_to(get_global_mouse_position())
-			b.rotation = b.direction.angle()
+			shoot()
 		1:
 			throw(Flashbang)
 		2:
 			throw(Molotov)
+		_:
+			print("not implemented")
+
+func shoot():
+	var b = Bullet.instance()
+	root.add_child(b)
+	b.direction = Vector2(1,0).rotated(gun.global_rotation)
+	b.transform = gun.global_transform
+	b.rotation = b.direction.angle()
+
+func facing_right():
+	return $Body.scale.x == 1
 
 func throw(type):
-	$Body/Arm.scale.x = -$Body/Arm.scale.x
-	yield(get_tree().create_timer(0.1), "timeout")
-	$Body/Arm.scale.x = -$Body/Arm.scale.x
+	throw_anim()
 	var t = type.instance()
-	get_node('/root').add_child(t)
+	root.add_child(t)
+	var direction = gun.global_position.direction_to(get_global_mouse_position())
 	t.transform = gun.global_transform
-	var throw_velocity = gun.global_position.direction_to(get_global_mouse_position())
-	t.rotation = throw_velocity.angle()
-	t.apply_central_impulse(throw_velocity * 900 + velocity)
+	t.position -= direction * 2
+	if (facing_right()):
+		t.rotation += PI
+	t.apply_central_impulse(direction * 900 + velocity)
+	
+func throw_anim():
+	arm.scale.x = -$Body/Arm.scale.x
+	yield(get_tree().create_timer(0.1), "timeout")
+	arm.scale.x = -$Body/Arm.scale.x
 	
 func take_damage(amount):
 	print(amount)
