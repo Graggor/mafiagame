@@ -7,11 +7,12 @@ const max_speed = 400
 var gravity = 2400
 var health = 100.0
 var ducking = false
-const weapon_count = 2
+const weapon_count = 3
 var current_weapon = 0
 
 export (PackedScene) var Bullet
 export (PackedScene) var Flashbang
+export (PackedScene) var Molotov
 
 var target = Vector2()
 var fall_damage
@@ -23,9 +24,9 @@ onready var gun = $Body/Arm/Gun
 func _ready():
 	speed = max_speed
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	update()
 	if flash_duration > 0:
 		flash_duration -= delta
 		$Camera2D/FlashEffect.modulate.a = flash_duration 
@@ -93,23 +94,27 @@ func blind():
 func shoot():
 	match current_weapon:
 		0:
-			$Body/Arm.scale.x = -$Body/Arm.scale.x
-			yield(get_tree().create_timer(0.1), "timeout")
-			$Body/Arm.scale.x = -$Body/Arm.scale.x
-			var f = Flashbang.instance()
-			owner.add_child(f)
-			f.transform = gun.global_transform
-			var throw_velocity = gun.global_position.direction_to(get_global_mouse_position())
-			f.rotation = 0
-			f.apply_central_impulse(throw_velocity * 900 + velocity)
-		1:
 			var b = Bullet.instance()
-			owner.add_child(b)
+			get_node('/root').add_child(b)
 			b.transform = gun.global_transform
 			b.direction = Vector2(1,0).rotated(gun.global_rotation)
 			#b.direction = gun.global_position.direction_to(get_global_mouse_position())
 			b.rotation = b.direction.angle()
-	
+		1:
+			throw(Flashbang)
+		2:
+			throw(Molotov)
+
+func throw(type):
+	$Body/Arm.scale.x = -$Body/Arm.scale.x
+	yield(get_tree().create_timer(0.1), "timeout")
+	$Body/Arm.scale.x = -$Body/Arm.scale.x
+	var t = type.instance()
+	get_node('/root').add_child(t)
+	t.transform = gun.global_transform
+	var throw_velocity = gun.global_position.direction_to(get_global_mouse_position())
+	t.rotation = throw_velocity.angle()
+	t.apply_central_impulse(throw_velocity * 900 + velocity)
 	
 func take_damage(amount):
 	print(amount)

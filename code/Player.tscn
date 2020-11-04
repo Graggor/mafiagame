@@ -6,6 +6,7 @@
 [ext_resource path="res://Flashbang.tscn" type="PackedScene" id=4]
 [ext_resource path="res://sprites/throwable/player_flash.png" type="Texture" id=5]
 [ext_resource path="res://sprites/player/arms.png" type="Texture" id=6]
+[ext_resource path="res://Molotov.tscn" type="PackedScene" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 12, 27 )
@@ -270,6 +271,7 @@ collision_layer = 2
 script = ExtResource( 1 )
 Bullet = ExtResource( 3 )
 Flashbang = ExtResource( 4 )
+Molotov = ExtResource( 6 )
 
 [node name="Body" type="Node2D" parent="."]
 
@@ -309,7 +311,7 @@ __meta__ = {
 [node name="FlashEffect" type="Sprite" parent="Camera2D"]
 modulate = Color( 1, 1, 1, 0 )
 light_mask = -2147483648
-position = Vector2( 76.1148, -22.9181 )
+position = Vector2( -6, 6 )
 scale = Vector2( 400, 400 )
 z_index = 5
 texture = ExtResource( 5 )
