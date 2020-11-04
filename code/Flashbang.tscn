@@ -1,15 +1,19 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Throwable.tscn" type="PackedScene" id=1]
 [ext_resource path="res://sprites/throwable/flashbang.png" type="Texture" id=2]
 [ext_resource path="res://Flashbang.gd" type="Script" id=3]
 [ext_resource path="res://sprites/environment/light_shadow_light.png" type="Texture" id=4]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="PhysicsMaterial" id=1]
+bounce = 0.2
+
+[sub_resource type="CircleShape2D" id=2]
 radius = 512.653
 
 [node name="Throwable" instance=ExtResource( 1 )]
 collision_layer = 64
+physics_material_override = SubResource( 1 )
 gravity_scale = 25.0
 script = ExtResource( 3 )
 
@@ -31,4 +35,4 @@ collision_layer = 2147483648
 collision_mask = 6
 
 [node name="Shape" type="CollisionShape2D" parent="EffectRadius" index="0"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )

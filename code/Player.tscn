@@ -1,13 +1,14 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://sprites/player/player.png" type="Texture" id=2]
 [ext_resource path="res://Bullet.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Flashbang.tscn" type="PackedScene" id=4]
 [ext_resource path="res://sprites/throwable/player_flash.png" type="Texture" id=5]
+[ext_resource path="res://sprites/player/arms.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 12, 16 )
+extents = Vector2( 12, 27 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "duck"
@@ -58,6 +59,18 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Body/Arm:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -9, 17 ) ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -111,8 +124,20 @@ tracks/3/keys = {
 "update": 0,
 "values": [ 0.0 ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("Body/Arm:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -10, 1 ) ]
+}
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 resource_name = "slide"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/Sprite:frame")
@@ -162,8 +187,20 @@ tracks/3/keys = {
 "update": 0,
 "values": [ 0.0 ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("Body/Arm:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -19, 20 ) ]
+}
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 length = 1.24
 loop = true
 step = 0.04
@@ -215,6 +252,18 @@ tracks/3/keys = {
 "update": 0,
 "values": [ 0.0 ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("Body/Arm:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.64, 0.68, 0.72, 0.76, 0.8, 0.84, 0.88, 0.92, 0.96, 1, 1.04, 1.08, 1.12, 1.16, 1.2, 1.24 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( -11, 1 ), Vector2( -12, 2 ), Vector2( -12, 2 ), Vector2( -11, 2 ), Vector2( -11, 2 ), Vector2( -9, 2 ), Vector2( -10, 2 ), Vector2( -10, 1 ), Vector2( -10, 1 ), Vector2( -10.0435, 1 ), Vector2( -10.087, 1 ), Vector2( -8.13043, 1 ), Vector2( -5.27391, 1 ), Vector2( -4.57529, 1 ), Vector2( -3.93221, 1 ), Vector2( -3.34797, 2 ), Vector2( -1.82622, 1.9375 ), Vector2( -0.437804, 1.875 ), Vector2( -1.12082, 3.8125 ), Vector2( -1.88076, 2.67308 ), Vector2( -2.64069, 2.53365 ), Vector2( -3.40063, 2.39423 ), Vector2( -4.16057, 2.25481 ), Vector2( -4.9205, 2.11538 ), Vector2( -6.68044, 1.97596 ), Vector2( -6.29752, 1.83654 ), Vector2( -10.0813, 1.69712 ), Vector2( -10.265, 1.55769 ), Vector2( -9.44876, 1.41827 ), Vector2( -9.96584, 1.27885 ), Vector2( -9.48292, 2.13942 ), Vector2( -9, 2 ) ]
+}
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
@@ -224,20 +273,31 @@ Flashbang = ExtResource( 4 )
 
 [node name="Body" type="Node2D" parent="."]
 
-[node name="Gun" type="Position2D" parent="Body"]
-position = Vector2( 0.336, 19.8108 )
-
 [node name="Sprite" type="Sprite" parent="Body"]
 texture = ExtResource( 2 )
 vframes = 3
 hframes = 20
-frame = 46
+frame = 29
 
 [node name="Eyes" type="Position2D" parent="Body"]
 position = Vector2( -2, -12 )
 
+[node name="Arm" type="Node2D" parent="Body"]
+position = Vector2( -4.9205, 2.11538 )
+
+[node name="Sprite" type="Sprite" parent="Body/Arm"]
+rotation = -1.5708
+texture = ExtResource( 6 )
+centered = false
+offset = Vector2( -18, -24 )
+hframes = 7
+frame = 6
+
+[node name="Gun" type="Position2D" parent="Body/Arm"]
+position = Vector2( 16.336, 0.810801 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -1, 16 )
+position = Vector2( -3, 5 )
 shape = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -249,6 +309,7 @@ __meta__ = {
 [node name="FlashEffect" type="Sprite" parent="Camera2D"]
 modulate = Color( 1, 1, 1, 0 )
 light_mask = -2147483648
+position = Vector2( 76.1148, -22.9181 )
 scale = Vector2( 400, 400 )
 z_index = 5
 texture = ExtResource( 5 )
@@ -256,8 +317,8 @@ texture = ExtResource( 5 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/duck = SubResource( 2 )
 anims/idle = SubResource( 3 )
-anims/slide = SubResource( 5 )
-anims/walk = SubResource( 4 )
+anims/slide = SubResource( 4 )
+anims/walk = SubResource( 5 )
 
 [node name="ShotTimer" type="Timer" parent="."]
 one_shot = true

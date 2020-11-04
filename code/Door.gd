@@ -38,10 +38,10 @@ func open():
 	
 
 func close():
-	set_collision_layer_bit(0, true)
 	$AnimationPlayer.play_backwards("open")
 	$Label.text = "Press \"E\" to open the door."
 	is_open = false
 	yield($AnimationPlayer, "animation_finished")
+	set_collision_layer_bit(0, true)
 	$LightOccluder2D.visible = true
 	
