@@ -17,6 +17,7 @@ var target = Vector2()
 var fall_damage
 var flash_duration = 0
 
+onready var gun = $Body/Arm/Gun
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -32,6 +33,8 @@ func _physics_process(delta):
 		flash_duration = 0
 		$Camera2D/FlashEffect.modulate.a = 0
 		
+	$Body/Arm.look_at(get_global_mouse_position())
+	#$Body/Arm.rotation = get_global_mouse_position().angle_to($Body/Arm.position)
 	
 	if !ducking:
 		speed = max_speed
@@ -90,18 +93,22 @@ func blind():
 func shoot():
 	match current_weapon:
 		0:
+			$Body/Arm.scale.x = -$Body/Arm.scale.x
+			yield(get_tree().create_timer(0.1), "timeout")
+			$Body/Arm.scale.x = -$Body/Arm.scale.x
 			var f = Flashbang.instance()
 			owner.add_child(f)
-			f.transform = $Body/Gun.global_transform
-			var throw_velocity = $Body/Gun.global_position.direction_to(get_global_mouse_position())
+			f.transform = gun.global_transform
+			var throw_velocity = gun.global_position.direction_to(get_global_mouse_position())
 			f.rotation = 0
 			f.apply_central_impulse(throw_velocity * 900 + velocity)
 		1:
 			var b = Bullet.instance()
 			owner.add_child(b)
-			b.transform = $Body/Gun.global_transform
-			b.velocity = $Body/Gun.global_position.direction_to(get_global_mouse_position())
-			b.rotation = b.velocity.angle()
+			b.transform = gun.global_transform
+			b.direction = Vector2(1,0).rotated(gun.global_rotation)
+			#b.direction = gun.global_position.direction_to(get_global_mouse_position())
+			b.rotation = b.direction.angle()
 	
 	
 func take_damage(amount):
