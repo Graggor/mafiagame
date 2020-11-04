@@ -1,5 +1,11 @@
 [gd_scene format=2]
 
-[node name="Throwable" type="RigidBody2D"]
+[node name="Throwable" type="RigidBody2D" groups=[
+"throwable",
+]]
+collision_layer = 64
+continuous_cd = 2
+
+[node name="Sprite" type="Sprite" parent="."]
 
 [node name="Collision" type="CollisionPolygon2D" parent="."]

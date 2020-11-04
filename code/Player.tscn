@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://sprites/player/player.png" type="Texture" id=2]
@@ -6,6 +6,61 @@
 [ext_resource path="res://Flashbang.tscn" type="PackedScene" id=4]
 [ext_resource path="res://sprites/throwable/player_flash.png" type="Texture" id=5]
 [ext_resource path="res://sprites/player/arms.png" type="Texture" id=6]
+[ext_resource path="res://Molotov.tscn" type="PackedScene" id=7]
+
+[sub_resource type="Animation" id=6]
+resource_name = "ak"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 36, -5.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 4 ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "molotov"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 18, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 12, 27 )
@@ -270,6 +325,7 @@ collision_layer = 2
 script = ExtResource( 1 )
 Bullet = ExtResource( 3 )
 Flashbang = ExtResource( 4 )
+Molotov = ExtResource( 7 )
 
 [node name="Body" type="Node2D" parent="."]
 
@@ -277,13 +333,13 @@ Flashbang = ExtResource( 4 )
 texture = ExtResource( 2 )
 vframes = 3
 hframes = 20
-frame = 29
+frame = 6
 
 [node name="Eyes" type="Position2D" parent="Body"]
 position = Vector2( -2, -12 )
 
 [node name="Arm" type="Node2D" parent="Body"]
-position = Vector2( -4.9205, 2.11538 )
+position = Vector2( -11, 1 )
 
 [node name="Sprite" type="Sprite" parent="Body/Arm"]
 rotation = -1.5708
@@ -294,7 +350,12 @@ hframes = 7
 frame = 6
 
 [node name="Gun" type="Position2D" parent="Body/Arm"]
-position = Vector2( 16.336, 0.810801 )
+position = Vector2( 18, 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body/Arm"]
+anims/ak = SubResource( 6 )
+anims/flashbang = SubResource( 7 )
+anims/molotov = SubResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -3, 5 )
@@ -309,10 +370,12 @@ __meta__ = {
 [node name="FlashEffect" type="Sprite" parent="Camera2D"]
 modulate = Color( 1, 1, 1, 0 )
 light_mask = -2147483648
-position = Vector2( 76.1148, -22.9181 )
 scale = Vector2( 400, 400 )
 z_index = 5
 texture = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/duck = SubResource( 2 )
