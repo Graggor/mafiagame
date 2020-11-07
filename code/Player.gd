@@ -16,7 +16,7 @@ export (PackedScene) var Molotov
 var target = Vector2()
 var fall_damage
 var flash_duration = 0
-const guns = ["ak", "flashbang", "molotov"]
+const guns = ["pistol", "sawed-off", "ak", "knife", "flashbang", "molotov"]
 onready var gun = $Body/Arm/Gun
 onready var arm = $Body/Arm
 onready var root = get_node('/root')
@@ -101,8 +101,14 @@ func attack():
 		0:
 			shoot()
 		1:
-			throw(Flashbang)
+			shoot()
 		2:
+			shoot()
+		3:
+			pass #knife
+		4:
+			throw(Flashbang)
+		5:
 			throw(Molotov)
 		_:
 			print("not implemented")

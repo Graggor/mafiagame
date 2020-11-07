@@ -1,3 +1,4 @@
+tool
 extends Node2D
 
 export (NodePath) var linked
@@ -13,11 +14,9 @@ func _ready():
 	else:
 		$Sprite.frame = 0
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-
 func _input(event):
 	if event.is_action_pressed("interact") && body_present:
 		interact(current_body)
