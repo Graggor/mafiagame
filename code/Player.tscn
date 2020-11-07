@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://sprites/player/player.png" type="Texture" id=2]
@@ -8,7 +8,7 @@
 [ext_resource path="res://sprites/player/arms.png" type="Texture" id=6]
 [ext_resource path="res://Molotov.tscn" type="PackedScene" id=7]
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=1]
 resource_name = "ak"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Gun:position")
@@ -35,7 +35,7 @@ tracks/1/keys = {
 "values": [ 4 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=2]
 resource_name = "molotov"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Gun:position")
@@ -62,11 +62,91 @@ tracks/1/keys = {
 "values": [ 6 ]
 }
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="Animation" id=3]
+resource_name = "knife"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 36, -5.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "pistol"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 24, -5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 2 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "sawed-off"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 36, -5.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 5 ]
+}
+
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 12, 27 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "duck"
+[sub_resource type="Animation" id=7]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/Sprite:frame")
 tracks/0/interp = 1
@@ -128,7 +208,7 @@ tracks/4/keys = {
 "values": [ Vector2( -9, 17 ) ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=8]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -192,8 +272,7 @@ tracks/4/keys = {
 "values": [ Vector2( -10, 1 ) ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "slide"
+[sub_resource type="Animation" id=9]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/Sprite:frame")
 tracks/0/interp = 1
@@ -255,7 +334,7 @@ tracks/4/keys = {
 "values": [ Vector2( -19, 20 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=10]
 length = 1.24
 loop = true
 step = 0.04
@@ -347,19 +426,22 @@ texture = ExtResource( 6 )
 centered = false
 offset = Vector2( -18, -24 )
 hframes = 7
-frame = 6
+frame = 5
 
 [node name="Gun" type="Position2D" parent="Body/Arm"]
-position = Vector2( 18, 1 )
+position = Vector2( 32, -5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Body/Arm"]
-anims/ak = SubResource( 6 )
-anims/flashbang = SubResource( 7 )
-anims/molotov = SubResource( 7 )
+anims/ak = SubResource( 1 )
+anims/flashbang = SubResource( 2 )
+anims/knife = SubResource( 3 )
+anims/molotov = SubResource( 2 )
+anims/pistol = SubResource( 4 )
+anims/sawed-off = SubResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -3, 5 )
-shape = SubResource( 1 )
+shape = SubResource( 6 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
@@ -378,10 +460,10 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/duck = SubResource( 2 )
-anims/idle = SubResource( 3 )
-anims/slide = SubResource( 4 )
-anims/walk = SubResource( 5 )
+anims/duck = SubResource( 7 )
+anims/idle = SubResource( 8 )
+anims/slide = SubResource( 9 )
+anims/walk = SubResource( 10 )
 
 [node name="ShotTimer" type="Timer" parent="."]
 one_shot = true
