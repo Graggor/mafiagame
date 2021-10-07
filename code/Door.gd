@@ -6,12 +6,15 @@ extends StaticBody2D
 # var b = "text"
 var can_interact = false
 var is_open = false
+export (bool) var open_left = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$AnimationPlayer
 	$Label.visible = false
 	set_collision_layer_bit(0, true)
+	if open_left:
+		$Sprite.scale.x = -1
 
 func _input(event):
 	if event.is_action_pressed("interact") && can_interact:

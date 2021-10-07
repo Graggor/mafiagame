@@ -9,6 +9,9 @@ var health = 100.0
 var ducking = false
 var current_weapon = 0
 
+enum weapon_types {PISTOL, SHOTGUN, AK, KNIFE, FLASH, MOLOTOV}
+enum shooting_types {SINGLE, SPREAD, RAYCAST}
+
 export (PackedScene) var Bullet
 export (PackedScene) var Flashbang
 export (PackedScene) var Molotov
@@ -99,11 +102,11 @@ func equip_weapon(id):
 func attack():
 	match current_weapon:
 		0:
-			shoot()
+			shoot(shooting_types.SINGLE)
 		1:
-			shoot()
+			shoot(shooting_types.SPREAD)
 		2:
-			shoot()
+			shoot(shooting_types.SINGLE)
 		3:
 			pass #knife
 		4:
@@ -113,12 +116,29 @@ func attack():
 		_:
 			print("not implemented")
 
-func shoot():
-	var b = Bullet.instance()
-	root.add_child(b)
-	b.direction = Vector2(1,0).rotated(gun.global_rotation)
-	b.transform = gun.global_transform
-	b.rotation = b.direction.angle()
+func shoot(type):
+	match type:
+		shooting_types.SINGLE:
+			var b = Bullet.instance()
+			root.add_child(b)
+			b.direction = Vector2(1,0).rotated(gun.global_rotation)
+			b.transform = gun.global_transform
+			b.rotation = b.direction.angle()
+		shooting_types.SPREAD:
+			var bullet_amount = 5
+			var bullet_rotation_offset = -(((bullet_amount - 1) / 2) * 4)
+			
+			for i in range(bullet_amount):
+				var b = Bullet.instance()
+				root.add_child(b)
+				b.change_type(b.SHOTGUN)
+				b.direction = Vector2(1,0).rotated(gun.global_rotation - deg2rad(bullet_rotation_offset))
+				b.transform = gun.global_transform
+				b.rotation = b.direction.angle()
+				bullet_rotation_offset += 4
+			
+		shooting_types.RAYCAST:
+			pass
 
 func facing_right():
 	return $Body.scale.x == 1
@@ -129,7 +149,7 @@ func throw(type):
 	root.add_child(t)
 	var direction = gun.global_position.direction_to(get_global_mouse_position())
 	t.transform = gun.global_transform
-	t.position -= direction * 2
+	t.position += direction * 2
 	if (facing_right()):
 		t.rotation += PI
 	t.apply_central_impulse(direction * 900 + velocity)

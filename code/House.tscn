@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://sprites/environment/huis1.png" type="Texture" id=1]
+
+[sub_resource type="OccluderPolygon2D" id=1]
+polygon = PoolVector2Array( -176, 240, -176, 192, 304, 192, 304, 320, -176, 320, -176, 304, 288, 304, 288, 208, 112, 208, 112, 240, 96, 240, 96, 208, -160, 208, -160, 240 )
+
+[sub_resource type="OccluderPolygon2D" id=2]
+polygon = PoolVector2Array( -240, 80, 304, 80, 304, 192, 288, 192, 288, 96, -16, 96, -16, 128, -32, 128, -32, 96, -160, 96, -160, 192, -176, 192, -176, 96, -240, 96 )
+
+[sub_resource type="OccluderPolygon2D" id=3]
+polygon = PoolVector2Array( -176, 16, -176, -144, 112, -144, 112, -224, 64, -224, 64, -208, 48, -208, 48, -240, 128, -240, 128, -144, 304, -144, 304, 80, 288, 80, 288, -16, 224, -16, 224, 16, 208, 16, 208, -16, -32, -16, -32, 16, -48, 16, -48, -16, -160, -16, -160, -32, 288, -32, 288, -128, 128, -128, 128, -96, 112, -96, 112, -128, 16, -128, 16, -96, 0, -96, 0, -128, -160, -128, -160, 16 )
+
+[node name="House" type="Node2D"]
+z_index = -1
+z_as_relative = false
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( -176, 304, 288, 304, 288, 208, 112, 208, 112, 240, 96, 240, 96, 208, -160, 208, -160, 240, -176, 240, -176, 192, 304, 192, 304, 320, -176, 320 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="StaticBody2D"]
+occluder = SubResource( 1 )
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D2"]
+polygon = PoolVector2Array( -160, 192, -176, 192, -176, 96, -240, 96, -240, 80, 304, 80, 304, 192, 288, 192, 288, 96, -16, 96, -16, 128, -32, 128, -32, 96, -160, 96 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="StaticBody2D2"]
+occluder = SubResource( 2 )
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D3"]
+polygon = PoolVector2Array( 304, 80, 304, -144, 128, -144, 128, -240, 48, -240, 48, -208, 64, -208, 64, -224, 112, -224, 112, -144, -176, -144, -176, -128, 0, -128, 0, -96, 16, -96, 16, -128, 112, -128, 112, -96, 128, -96, 128, -128, 288, -128, 288, -32, -160, -32, -160, -128, -176, -128, -176, 16, -160, 16, -160, -16, -48, -16, -48, 16, -32, 16, -32, -16, 208, -16, 208, 16, 224, 16, 224, -16, 288, -16, 288, 80 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="StaticBody2D3"]
+occluder = SubResource( 3 )
